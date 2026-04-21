@@ -1,349 +1,349 @@
 ---
 name: flutter-setup
 version: 2.0.0
-description: "Setup lengkap environment Flutter dari nol untuk iOS dan Android — cocok untuk pemula yang belum pernah coding. Menginstall semua tool yang dibutuhkan (Homebrew, Xcode, Android Studio, Android SDK, FVM, Flutter), dan memastikan app Flutter bisa dijalankan di simulator/emulator. Satu skill untuk semua. Tidak perlu install Java manual — Flutter pakai JDK bawaan Android Studio."
+description: "Complete Flutter environment setup from scratch for iOS and Android — perfect for beginners with no prior coding experience. Installs all required tools (Homebrew, Xcode, Android Studio, Android SDK, FVM, Flutter) and ensures Flutter apps can run on simulator/emulator. One skill for everything. No need to install Java manually — Flutter uses the JDK bundled with Android Studio."
 metadata:
   requires: []
 ---
 
 # Flutter Complete Environment Setup — iOS & Android
 
-> Untuk pemula yang baru mulai Flutter di macOS.
-> Skill ini akan menginstall **semua yang dibutuhkan** dari nol.
-> Setiap step: **cek dulu → install kalau belum ada → verifikasi → lanjut**.
-> Jika ada error, **berhenti dan jelaskan** sebelum lanjut.
+> For beginners starting Flutter on macOS.
+> This skill will install **everything you need** from scratch.
+> Every step: **check first → install if missing → verify → continue**.
+> If there's an error, **stop and explain** before proceeding.
 
 ---
 
-## Pembukaan — Sambut User
+## Opening — Welcome the User
 
-Sebelum mulai, sampaikan kepada user:
+Before starting, say to the user:
 
 ```
-Halo! Saya akan membantu setup environment Flutter di laptop kamu.
+Hello! I'll help you set up the Flutter environment on your laptop.
 
-Proses ini akan menginstall semua tool yang dibutuhkan untuk 
-membuat aplikasi Flutter (iOS & Android) dari nol.
+This process will install all the tools needed to build 
+Flutter apps (iOS & Android) from scratch.
 
-Estimasi waktu: 60-120 menit (sebagian besar adalah waktu download)
+Estimated time: 60-120 minutes (mostly download time)
 
-Yang akan diinstall:
-  ✦ Homebrew       — package manager untuk macOS
+What will be installed:
+  ✦ Homebrew       — package manager for macOS
   ✦ Git            — version control
-  ✦ Xcode          — tools untuk iOS development
-  ✦ CocoaPods      — dependency manager iOS
-  ✦ Android Studio — IDE sekaligus bundled JDK untuk Android
-  ✦ Android SDK    — tools untuk Android development
+  ✦ Xcode          — tools for iOS development
+  ✦ CocoaPods      — iOS dependency manager
+  ✦ Android Studio — IDE with bundled JDK for Android
+  ✦ Android SDK    — tools for Android development
   ✦ FVM            — Flutter version manager
-  ✦ Flutter        — framework utama
+  ✦ Flutter        — the main framework
 
-Sebelum mulai, ada beberapa hal yang perlu disiapkan:
-  1. Koneksi internet yang stabil
-  2. Storage kosong minimal 35 GB
-  3. Apple ID (akun iCloud/App Store kamu)
+Before we start, a few things to prepare:
+  1. A stable internet connection
+  2. At least 35 GB of free storage
+  3. An Apple ID (your iCloud/App Store account)
 
-Siap? Ketik "ya" atau "lanjut" untuk mulai.
+Ready? Type "yes" or "continue" to begin.
 ```
 
-Tunggu konfirmasi user sebelum lanjut.
+Wait for the user's confirmation before proceeding.
 
 ---
 
-## BAGIAN 1 — FONDASI (Common Tools)
+## PART 1 — FOUNDATION (Common Tools)
 
-### Step 1 — Cek & Install Homebrew
+### Step 1 — Check & Install Homebrew
 
-Homebrew adalah "toko aplikasi" untuk terminal — dipakai untuk install hampir semua tool lainnya.
+Homebrew is an "app store" for the terminal — used to install almost all other tools.
 
-**Cek:**
+**Check:**
 ```bash
 which brew && brew --version
 ```
 
-**Jika sudah ada** → tampilkan versi, lanjut ke Step 2.
+**If already installed** → show version, continue to Step 2.
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Selama proses install, terminal mungkin minta password laptop — ini normal dan aman.
+During the installation, the terminal may ask for your laptop password — this is normal and safe.
 
-Setelah install, setup PATH:
+After installation, set up PATH:
 ```bash
-# Cek chip Mac (Apple Silicon atau Intel)
+# Check Mac chip (Apple Silicon or Intel)
 if [[ $(uname -m) == "arm64" ]]; then
   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 brew --version
 ```
 
-Tampilkan: `✅ Homebrew [versi] berhasil diinstall`
+Show: `✅ Homebrew [version] successfully installed`
 
 ---
 
-### Step 2 — Cek & Install Git
+### Step 2 — Check & Install Git
 
-**Cek:**
+**Check:**
 ```bash
 git --version
 ```
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 brew install git
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 git --version
 ```
 
 ---
 
-### Step 3 — Cek & Install FVM (Flutter Version Manager)
+### Step 3 — Check & Install FVM (Flutter Version Manager)
 
-FVM memudahkan pengelolaan versi Flutter.
+FVM makes it easy to manage Flutter versions.
 
-**Cek:**
+**Check:**
 ```bash
 fvm --version 2>/dev/null
 ```
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 brew tap leoafarias/fvm
 brew install fvm
 ```
 
-Setup PATH FVM:
+Set up FVM PATH:
 ```bash
 grep -q 'fvm/default/bin' ~/.zshrc || echo 'export PATH="$PATH:$HOME/fvm/default/bin"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 fvm --version
 ```
 
 ---
 
-### Step 4 — Cek & Install Flutter via FVM
+### Step 4 — Check & Install Flutter via FVM
 
-**Cek:**
+**Check:**
 ```bash
 fvm list 2>/dev/null | grep -E "stable|[0-9]+\.[0-9]+"
 ```
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 fvm install stable
 fvm global stable
 ```
 
-Setup PATH Flutter:
+Set up Flutter PATH:
 ```bash
 grep -q 'fvm/default/bin' ~/.zshrc || echo 'export PATH="$PATH:$HOME/fvm/default/bin"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 fvm flutter --version
 ```
 
 ---
 
-## BAGIAN 2 — iOS SETUP
+## PART 2 — iOS SETUP
 
-Sampaikan ke user:
+Tell the user:
 ```
-📱 Sekarang kita setup untuk iOS...
+📱 Now setting up for iOS...
 ```
 
 ---
 
-### Step 5 — Cek & Install Xcode via xcodes CLI
+### Step 5 — Check & Install Xcode via xcodes CLI
 
-`xcodes` memungkinkan install Xcode langsung dari terminal tanpa buka App Store.
+`xcodes` allows installing Xcode directly from the terminal without opening the App Store.
 
 #### Step 5a — Install xcodes
 
-**Cek:**
+**Check:**
 ```bash
 which xcodes && xcodes version
 ```
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 brew install xcodes
 ```
 
-#### Step 5b — Tanya Apple ID
+#### Step 5b — Ask for Apple ID
 
-**Tanya user:**
+**Ask the user:**
 ```
-Untuk menginstall Xcode, dibutuhkan Apple ID.
-Apple ID adalah email yang kamu pakai di iPhone atau iCloud.
+To install Xcode, an Apple ID is required.
+Your Apple ID is the email you use on your iPhone or iCloud.
 
-Masukkan Apple ID kamu (email):
+Enter your Apple ID (email):
 ```
 
-Simpan jawaban sebagai `APPLE_ID`.
+Save the answer as `APPLE_ID`.
 
-#### Step 5c — Cek Xcode Sudah Terinstall
+#### Step 5c — Check if Xcode is Already Installed
 
-**Cek:**
+**Check:**
 ```bash
 xcodebuild -version 2>/dev/null | head -1
 ```
 
-**Jika Xcode sudah ada** → tampilkan versi, skip ke Step 5e.
+**If Xcode is already installed** → show version, skip to Step 5e.
 
 #### Step 5d — Download & Install Xcode
 
-Sampaikan ke user:
+Tell the user:
 ```
-⏳ Menginstall Xcode (~15 GB). Proses ini membutuhkan 20-60 menit.
+⏳ Installing Xcode (~15 GB). This process takes 20-60 minutes.
 
-Nanti akan ada 3 prompt yang perlu kamu isi:
-  1. Password Apple ID kamu
-  2. Kode 6 angka dari HP kamu (verifikasi keamanan)
-  3. Password laptop kamu (untuk proses install)
+You will see 3 prompts to fill in:
+  1. Your Apple ID password
+  2. A 6-digit code from your phone (security verification)
+  3. Your laptop password (for the installation process)
 
-Pastikan HP kamu ada di dekat kamu untuk menerima kode verifikasi.
+Make sure your phone is nearby to receive the verification code.
 ```
 
-Jalankan:
+Run:
 ```bash
 xcodes install --latest --experimental-unxip
 ```
 
-Jika `xcodes` meminta Apple ID, gunakan `$APPLE_ID` yang sudah diinput user.
+If `xcodes` asks for an Apple ID, use the `$APPLE_ID` entered by the user.
 
-**Verifikasi setelah install:**
+**Verify after installation:**
 ```bash
 xcodebuild -version
 ```
 
-#### Step 5e — Konfigurasi Xcode
+#### Step 5e — Configure Xcode
 
 ```bash
-# Set Xcode sebagai active developer directory
+# Set Xcode as the active developer directory
 sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 
 # Accept license agreement
 sudo xcodebuild -license accept
 
-# Install komponen tambahan
+# Install additional components
 sudo xcodebuild -runFirstLaunch
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 xcode-select --print-path
 ```
 
-Output harus: `/Applications/Xcode.app/Contents/Developer`
+Output should be: `/Applications/Xcode.app/Contents/Developer`
 
 ---
 
-### Step 6 — Cek iOS Simulator
+### Step 6 — Check iOS Simulator
 
-**Cek runtime tersedia:**
+**Check available runtimes:**
 ```bash
 xcrun simctl list runtimes | grep iOS | head -3
 ```
 
-**Jika tidak ada iOS runtime**, install:
+**If no iOS runtime is available**, install:
 ```bash
 xcodes runtimes install "iOS 18"
 ```
 
-**Cek device simulator tersedia:**
+**Check available simulator devices:**
 ```bash
 xcrun simctl list devices available | grep iPhone | head -5
 ```
 
 ---
 
-### Step 7 — Cek & Install CocoaPods
+### Step 7 — Check & Install CocoaPods
 
-**Cek:**
+**Check:**
 ```bash
 pod --version 2>/dev/null
 ```
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 brew install cocoapods
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 pod --version
 ```
 
 ---
 
-## BAGIAN 3 — ANDROID SETUP
+## PART 3 — ANDROID SETUP
 
-Sampaikan ke user:
+Tell the user:
 ```
-🤖 Sekarang kita setup untuk Android...
+🤖 Now setting up for Android...
 ```
 
-> Flutter 3.10+ menggunakan JDK yang sudah dibundel di dalam Android Studio.
-> Tidak perlu install Java secara terpisah.
+> Flutter 3.10+ uses the JDK bundled inside Android Studio.
+> No need to install Java separately.
 
 ---
 
-### Step 8 — Cek & Install Android Studio
+### Step 8 — Check & Install Android Studio
 
-Android Studio adalah IDE untuk menulis kode Flutter sekaligus menyediakan JDK bawaan yang dibutuhkan untuk build Android.
+Android Studio is the IDE for writing Flutter code and also provides the bundled JDK needed for Android builds.
 
-**Cek:**
+**Check:**
 ```bash
 ls /Applications/Android\ Studio.app 2>/dev/null && echo "FOUND" || echo "NOT FOUND"
 ```
 
-**Jika sudah ada** → tampilkan, lanjut ke Step 9.
+**If already installed** → show it, continue to Step 9.
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 brew install --cask android-studio
 ```
 
-> Install via Homebrew otomatis download dan install ke Applications (~1.5 GB).
+> Installing via Homebrew automatically downloads and installs to Applications (~1.5 GB).
 
-**Verifikasi:**
+**Verify:**
 ```bash
-ls /Applications/Android\ Studio.app && echo "✅ Android Studio terinstall"
+ls /Applications/Android\ Studio.app && echo "✅ Android Studio installed"
 ```
 
 ---
 
-### Step 9 — Cek & Install Android Command Line Tools
+### Step 9 — Check & Install Android Command Line Tools
 
-Command Line Tools dibutuhkan untuk install SDK komponen dan membuat emulator via terminal.
+Command Line Tools are required to install SDK components and create emulators via the terminal.
 
-**Cek:**
+**Check:**
 ```bash
 ls ~/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager 2>/dev/null && echo "FOUND" || echo "NOT FOUND"
 ```
 
-**Jika belum ada:**
+**If not installed:**
 ```bash
 brew install --cask android-commandlinetools
 ```
 
-Jika brew cask gagal, install manual:
+If the brew cask fails, install manually:
 ```bash
 CMDLINE_URL="https://dl.google.com/android/repository/commandlinetools-mac-11076708_latest.zip"
 mkdir -p ~/Library/Android/sdk/cmdline-tools
@@ -354,7 +354,7 @@ cp -r /tmp/cmdtools/cmdline-tools/* ~/Library/Android/sdk/cmdline-tools/latest/
 rm -rf /tmp/cmdtools /tmp/commandlinetools-mac-*.zip
 ```
 
-**Setup Android environment variables** (tambahkan ke `~/.zshrc` jika belum ada):
+**Set up Android environment variables** (append to `~/.zshrc` if not already present):
 ```bash
 grep -q 'ANDROID_HOME' ~/.zshrc || cat >> ~/.zshrc << 'EOF'
 
@@ -368,7 +368,7 @@ EOF
 source ~/.zshrc
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 sdkmanager --version
 ```
@@ -377,7 +377,7 @@ sdkmanager --version
 
 ### Step 10 — Install Android SDK Components
 
-Deteksi chip Mac untuk menentukan ABI yang tepat:
+Detect the Mac chip to determine the correct ABI:
 ```bash
 CHIP=$(uname -m)
 if [ "$CHIP" = "arm64" ]; then
@@ -388,7 +388,7 @@ fi
 echo "Chip: $CHIP → System image: $SYS_IMG"
 ```
 
-Install semua komponen:
+Install all components:
 ```bash
 sdkmanager \
   "platform-tools" \
@@ -399,30 +399,30 @@ sdkmanager \
   "$SYS_IMG"
 ```
 
-Accept semua license:
+Accept all licenses:
 ```bash
 yes | sdkmanager --licenses
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 sdkmanager --list_installed 2>/dev/null | grep -E "platform-tools|emulator|build-tools"
 ```
 
 ---
 
-### Step 11 — Buat Android Emulator (Virtual Device)
+### Step 11 — Create Android Emulator (Virtual Device)
 
-Emulator = HP Android virtual di laptop untuk test app tanpa HP fisik.
+An emulator is a virtual Android phone on your laptop for testing apps without a physical device.
 
-**Cek emulator sudah ada:**
+**Check if emulator already exists:**
 ```bash
 $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager list avd 2>/dev/null | grep "Name:"
 ```
 
-**Jika sudah ada** → tampilkan nama, lanjut ke Step 12.
+**If already exists** → show the name, continue to Step 12.
 
-**Jika belum ada**, buat emulator menggunakan JDK bawaan Android Studio:
+**If not**, create an emulator using the JDK bundled with Android Studio:
 
 ```bash
 CHIP=$(uname -m)
@@ -434,7 +434,7 @@ else
   PKG="system-images;android-34;google_apis_playstore;x86_64"
 fi
 
-# Gunakan JDK bawaan Android Studio untuk avdmanager
+# Use the JDK bundled with Android Studio for avdmanager
 AS_JDK="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 
 JAVA_HOME="$AS_JDK" \
@@ -446,33 +446,33 @@ echo "no" | $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager create avd \
   --device "pixel_8"
 ```
 
-**Jika muncul error JAXB** (`NoClassDefFoundError: javax/xml/bind`), gunakan fallback ini:
+**If a JAXB error appears** (`NoClassDefFoundError: javax/xml/bind`), use this fallback:
 
 ```bash
-# Fallback: buka Android Studio Device Manager
+# Fallback: open Android Studio Device Manager
 open -a "Android Studio"
 ```
 
-Lalu panduan ke user:
+Then guide the user:
 ```
-Buka Android Studio yang baru muncul, lalu:
-1. Klik "More Actions" (ikon titik tiga) → "Virtual Device Manager"
-2. Klik tombol "+" di pojok kiri atas
-3. Pilih "Pixel 8" → klik Next
-4. Pilih "Android 14 (API 34)" → klik Next → Finish
-5. Ketik "done" kalau sudah selesai
+Open Android Studio, then:
+1. Click "More Actions" (three-dot icon) → "Virtual Device Manager"
+2. Click the "+" button in the top left
+3. Select "Pixel 8" → click Next
+4. Select "Android 14 (API 34)" → click Next → Finish
+5. Type "done" when finished
 ```
 
-**Verifikasi:**
+**Verify:**
 ```bash
 $ANDROID_HOME/cmdline-tools/latest/bin/avdmanager list avd 2>/dev/null | grep "Name:"
 ```
 
 ---
 
-## BAGIAN 4 — VERIFIKASI FINAL
+## PART 4 — FINAL VERIFICATION
 
-### Step 13 — Konfigurasi Flutter
+### Step 13 — Configure Flutter
 
 ```bash
 fvm flutter precache --ios --android
@@ -486,30 +486,30 @@ fvm flutter config --android-sdk "$ANDROID_HOME"
 fvm flutter doctor -v
 ```
 
-**Yang harus ✓ (hijau) semua:**
+**All of the following must show ✓ (green):**
 - `[✓] Flutter`
 - `[✓] Xcode`
 - `[✓] CocoaPods`
 - `[✓] Android toolchain`
 - `[✓] Android Studio`
 
-**Tabel troubleshooting — perbaiki semua ✗ sebelum lanjut:**
+**Troubleshooting table — fix all ✗ before continuing:**
 
-| Error | Solusi |
+| Error | Solution |
 |---|---|
 | `Xcode license not accepted` | `sudo xcodebuild -license accept` |
 | `Android licenses not accepted` | `yes \| sdkmanager --licenses` |
-| `Android SDK not found` | `source ~/.zshrc` lalu cek `echo $ANDROID_HOME` |
+| `Android SDK not found` | `source ~/.zshrc` then check `echo $ANDROID_HOME` |
 | `cmdline-tools component is missing` | `sdkmanager "cmdline-tools;latest"` |
 | `CocoaPods not installed` | `brew install cocoapods` |
 | `Android Studio not installed` | `brew install --cask android-studio` |
-| `command not found` setelah install | Tutup & buka ulang terminal |
+| `command not found` after install | Close & reopen terminal |
 
-Jalankan ulang `fvm flutter doctor` sampai semua ✓.
+Re-run `fvm flutter doctor` until all show ✓.
 
 ---
 
-### Step 15 — Test: Buat & Jalankan App Flutter Pertama
+### Step 15 — Test: Create & Run Your First Flutter App
 
 Boot iOS Simulator:
 ```bash
@@ -521,7 +521,7 @@ Boot Android Emulator:
 emulator -avd Flutter_Android &
 ```
 
-Tunggu kedua device siap, lalu:
+Wait for both devices to be ready, then:
 ```bash
 cd ~/Desktop
 fvm flutter create hello_flutter
@@ -529,56 +529,56 @@ cd hello_flutter
 fvm flutter run
 ```
 
-Jika muncul pilihan device, pilih salah satu (iOS atau Android).
-App demo Flutter akan muncul di layar (counter app berwarna biru).
+If a device selection prompt appears, choose one (iOS or Android).
+The Flutter demo app will appear on screen (a blue counter app).
 
 ---
 
-### Step 16 — Report Status Final
+### Step 16 — Final Status Report
 
-Setelah semua berhasil, tampilkan ringkasan ini:
+After everything succeeds, display this summary:
 
 ```
-🎉 Setup Flutter Selesai! Kamu siap coding!
+🎉 Flutter Setup Complete! You're ready to code!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   iOS
   ────────────────────────────
-  Xcode          : ✅ [versi]
-  CocoaPods      : ✅ [versi]
-  iOS Simulator  : ✅ siap
+  Xcode          : ✅ [version]
+  CocoaPods      : ✅ [version]
+  iOS Simulator  : ✅ ready
 
   Android
   ────────────────────────────
-  Android Studio : ✅ terinstall (bundled JDK [versi])
+  Android Studio : ✅ installed (bundled JDK [version])
   Android SDK    : ✅ [path]
   Emulator       : ✅ Flutter_Android
 
   Flutter
   ────────────────────────────
-  FVM            : ✅ [versi]
-  Flutter        : ✅ [versi]
-  Flutter Doctor : ✅ semua hijau
+  FVM            : ✅ [version]
+  Flutter        : ✅ [version]
+  Flutter Doctor : ✅ all green
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Perintah yang sering dipakai:
-  fvm flutter create nama_app  → buat project baru
-  fvm flutter run              → jalankan app
-  fvm flutter doctor           → cek environment
+Commonly used commands:
+  fvm flutter create app_name  → create a new project
+  fvm flutter run              → run the app
+  fvm flutter doctor           → check environment
 
-IDE yang bisa dipakai:
-  Android Studio  → cocok untuk Flutter & Android
-  VS Code         → ringan, populer untuk Flutter
-                    (install extension "Flutter" & "Dart")
+Recommended IDEs:
+  Android Studio  → great for Flutter & Android
+  VS Code         → lightweight, popular for Flutter
+                    (install "Flutter" & "Dart" extensions)
 ```
 
 ---
 
-## Catatan Penting
+## Important Notes
 
-- **Download Xcode ~15 GB** — pastikan koneksi internet stabil dan storage cukup
-- **2FA Apple:** Saat install Xcode, Apple kirim kode 6 digit ke HP — ini normal dan aman
-- **Emulator pertama kali boot** bisa lambat (2-3 menit) — tunggu sampai muncul layar home Android
-- **Gradle build pertama kali** bisa 5-10 menit — ini normal, selanjutnya akan lebih cepat
-- Jika ada "command not found" setelah install tool → tutup dan buka ulang terminal
+- **Xcode download is ~15 GB** — ensure a stable internet connection and sufficient storage
+- **Apple 2FA:** When installing Xcode, Apple sends a 6-digit code to your phone — this is normal and safe
+- **First emulator boot** can be slow (2-3 minutes) — wait until the Android home screen appears
+- **First Gradle build** can take 5-10 minutes — this is normal, subsequent builds will be faster
+- If you see "command not found" after installing a tool → close and reopen the terminal
