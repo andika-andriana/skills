@@ -6,7 +6,7 @@ A collection of [Claude Code](https://claude.ai/code) skills — automating setu
 
 | Skill | Description | Version |
 |-------|-------------|---------|
-| [flutter-setup](https://skills.sh/andika-andriana/skills/flutter-setup) | Complete Flutter environment setup from scratch for iOS and Android — great for beginners. Installs all required tools: Homebrew, Xcode, Android Studio, Android SDK, FVM, and Flutter. | 2.0.0 |
+| [flutter-setup](https://skills.sh/andika-andriana/skills/flutter-setup) | Complete Flutter environment setup from scratch for iOS and Android — great for beginners. Installs all required tools: Homebrew, Xcode, Android Studio, Android SDK, FVM, and Flutter. | 2.0.1 |
 
 ## Usage
 

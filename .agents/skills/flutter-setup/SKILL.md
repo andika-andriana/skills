@@ -1,6 +1,6 @@
 ---
 name: flutter-setup
-version: 2.0.0
+version: 2.0.1
 description: "Complete Flutter environment setup from scratch for iOS and Android — perfect for beginners with no prior coding experience. Installs all required tools (Homebrew, Xcode, Android Studio, Android SDK, FVM, Flutter) and ensures Flutter apps can run on simulator/emulator. One skill for everything. No need to install Java manually — Flutter uses the JDK bundled with Android Studio."
 metadata:
   requires: []
